@@ -12,7 +12,30 @@
 		7B388C171D6C5977008F059C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B388C151D6C5977008F059C /* Main.storyboard */; };
 		7B388C191D6C5977008F059C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B388C181D6C5977008F059C /* Assets.xcassets */; };
 		7B388C1C1D6C5977008F059C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B388C1A1D6C5977008F059C /* LaunchScreen.storyboard */; };
+		7B388D131D6C7597008F059C /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = 7B388C531D6C7597008F059C /* index.js */; };
+		7B388D141D6C7597008F059C /* JSDOMParser.js in Resources */ = {isa = PBXBuildFile; fileRef = 7B388C541D6C7597008F059C /* JSDOMParser.js */; };
+		7B388D161D6C7597008F059C /* Readability.js in Resources */ = {isa = PBXBuildFile; fileRef = 7B388C561D6C7597008F059C /* Readability.js */; };
+		7B388DA61D6C796D008F059C /* ReaderParser.js in Resources */ = {isa = PBXBuildFile; fileRef = 7B388DA51D6C796D008F059C /* ReaderParser.js */; };
+		7BA13F8C1D78825600AE2FCD /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BA13F8B1D78825600AE2FCD /* libxml2.2.tbd */; };
+		7BBA2B341D78850600869D6F /* Fuzi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BBA2B331D78850600869D6F /* Fuzi.framework */; };
+		7BBA2B351D78850600869D6F /* Fuzi.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7BBA2B331D78850600869D6F /* Fuzi.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7BBA2B431D7999EA00869D6F /* ViewArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBA2B421D7999EA00869D6F /* ViewArticleViewController.swift */; };
+		7BBA2B521D799F0900869D6F /* NewsArticleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBA2B511D799F0900869D6F /* NewsArticleTableViewCell.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7BBA2B361D78850600869D6F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7BBA2B351D78850600869D6F /* Fuzi.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		7B388C0E1D6C5977008F059C /* ContextInNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContextInNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -22,6 +45,14 @@
 		7B388C181D6C5977008F059C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B388C1B1D6C5977008F059C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7B388C1D1D6C5977008F059C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7B388C531D6C7597008F059C /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
+		7B388C541D6C7597008F059C /* JSDOMParser.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = JSDOMParser.js; sourceTree = "<group>"; };
+		7B388C561D6C7597008F059C /* Readability.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Readability.js; sourceTree = "<group>"; };
+		7B388DA51D6C796D008F059C /* ReaderParser.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = ReaderParser.js; path = ContextInNews/Readability/ReaderParser.js; sourceTree = SOURCE_ROOT; };
+		7BA13F8B1D78825600AE2FCD /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
+		7BBA2B331D78850600869D6F /* Fuzi.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fuzi.framework; path = Carthage/Build/iOS/Fuzi.framework; sourceTree = "<group>"; };
+		7BBA2B421D7999EA00869D6F /* ViewArticleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewArticleViewController.swift; sourceTree = "<group>"; };
+		7BBA2B511D799F0900869D6F /* NewsArticleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsArticleTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +60,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BBA2B341D78850600869D6F /* Fuzi.framework in Frameworks */,
+				7BA13F8C1D78825600AE2FCD /* libxml2.2.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,8 +71,10 @@
 		7B388C051D6C5977008F059C = {
 			isa = PBXGroup;
 			children = (
+				7BBA2B331D78850600869D6F /* Fuzi.framework */,
 				7B388C101D6C5977008F059C /* ContextInNews */,
 				7B388C0F1D6C5977008F059C /* Products */,
+				7B6610851D78783000CFAD78 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +89,37 @@
 		7B388C101D6C5977008F059C /* ContextInNews */ = {
 			isa = PBXGroup;
 			children = (
+				7B388C4A1D6C7597008F059C /* readability */,
 				7B388C111D6C5977008F059C /* AppDelegate.swift */,
 				7B388C131D6C5977008F059C /* ViewController.swift */,
 				7B388C151D6C5977008F059C /* Main.storyboard */,
 				7B388C181D6C5977008F059C /* Assets.xcassets */,
 				7B388C1A1D6C5977008F059C /* LaunchScreen.storyboard */,
 				7B388C1D1D6C5977008F059C /* Info.plist */,
+				7BBA2B421D7999EA00869D6F /* ViewArticleViewController.swift */,
+				7BBA2B511D799F0900869D6F /* NewsArticleTableViewCell.swift */,
 			);
 			path = ContextInNews;
+			sourceTree = "<group>";
+		};
+		7B388C4A1D6C7597008F059C /* readability */ = {
+			isa = PBXGroup;
+			children = (
+				7B388DA51D6C796D008F059C /* ReaderParser.js */,
+				7B388C531D6C7597008F059C /* index.js */,
+				7B388C541D6C7597008F059C /* JSDOMParser.js */,
+				7B388C561D6C7597008F059C /* Readability.js */,
+			);
+			name = readability;
+			path = Carthage/Checkouts/readability;
+			sourceTree = SOURCE_ROOT;
+		};
+		7B6610851D78783000CFAD78 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7BA13F8B1D78825600AE2FCD /* libxml2.2.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +132,8 @@
 				7B388C0A1D6C5977008F059C /* Sources */,
 				7B388C0B1D6C5977008F059C /* Frameworks */,
 				7B388C0C1D6C5977008F059C /* Resources */,
+				7B66108A1D78787300CFAD78 /* Copy Carthage Dependencies */,
+				7BBA2B361D78850600869D6F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -96,6 +156,7 @@
 				TargetAttributes = {
 					7B388C0D1D6C5977008F059C = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -122,19 +183,43 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B388DA61D6C796D008F059C /* ReaderParser.js in Resources */,
+				7B388D131D6C7597008F059C /* index.js in Resources */,
 				7B388C1C1D6C5977008F059C /* LaunchScreen.storyboard in Resources */,
 				7B388C191D6C5977008F059C /* Assets.xcassets in Resources */,
 				7B388C171D6C5977008F059C /* Main.storyboard in Resources */,
+				7B388D161D6C7597008F059C /* Readability.js in Resources */,
+				7B388D141D6C7597008F059C /* JSDOMParser.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7B66108A1D78787300CFAD78 /* Copy Carthage Dependencies */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Fuzi.framework",
+			);
+			name = "Copy Carthage Dependencies";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7B388C0A1D6C5977008F059C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BBA2B431D7999EA00869D6F /* ViewArticleViewController.swift in Sources */,
+				7BBA2B521D799F0900869D6F /* NewsArticleTableViewCell.swift in Sources */,
 				7B388C141D6C5977008F059C /* ViewController.swift in Sources */,
 				7B388C121D6C5977008F059C /* AppDelegate.swift in Sources */,
 			);
@@ -249,10 +334,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = ContextInNews/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ContextInNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -260,10 +351,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = ContextInNews/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mozilla.ContextInNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -286,6 +383,7 @@
 				7B388C221D6C5977008F059C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
