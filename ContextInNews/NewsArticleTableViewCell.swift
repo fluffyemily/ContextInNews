@@ -13,8 +13,16 @@ class NewsArticleTableViewCell: UITableViewCell {
     lazy var headline: UILabel = {
         let label =  UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFontOfSize(12)
+        label.font = UIFont.boldSystemFontOfSize(12)
         label.numberOfLines = 0
+        return label
+    }()
+
+    lazy var creator: UILabel = {
+        let label =  UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFontOfSize(10)
+        label.numberOfLines = 1
         return label
     }()
 
@@ -48,29 +56,48 @@ class NewsArticleTableViewCell: UITableViewCell {
         return label
     }()
 
+    lazy var thumbnail: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
+
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         var constraints = [NSLayoutConstraint]()
 
+        contentView.addSubview(thumbnail)
+        constraints.appendContentsOf([thumbnail.topAnchor.constraintEqualToAnchor(contentView.topAnchor, constant: 5),
+            thumbnail.leadingAnchor.constraintEqualToAnchor(contentView.leadingAnchor, constant: 5),
+            thumbnail.widthAnchor.constraintLessThanOrEqualToConstant(50),
+            thumbnail.bottomAnchor.constraintLessThanOrEqualToAnchor(relatedArticlesLabel.topAnchor, constant: 5)
+            ])
+
         contentView.addSubview(headline)
 
         constraints.appendContentsOf([headline.topAnchor.constraintEqualToAnchor(contentView.topAnchor, constant: 5),
-            headline.leadingAnchor.constraintEqualToAnchor(contentView.leadingAnchor, constant: 5),
+            headline.leadingAnchor.constraintEqualToAnchor(thumbnail.trailingAnchor, constant: 5),
             headline.trailingAnchor.constraintEqualToAnchor(contentView.trailingAnchor, constant: -5)
-        ])
+            ])
+
+        contentView.addSubview(creator)
+
+        constraints.appendContentsOf([creator.topAnchor.constraintEqualToAnchor(headline.bottomAnchor, constant: 2),
+            creator.leadingAnchor.constraintEqualToAnchor(thumbnail.trailingAnchor, constant: 5),
+            creator.trailingAnchor.constraintEqualToAnchor(contentView.trailingAnchor, constant: -5)
+            ])
 
         contentView.addSubview(summary)
 
-        constraints.appendContentsOf([summary.topAnchor.constraintEqualToAnchor(headline.bottomAnchor, constant: 2),
-            summary.leadingAnchor.constraintEqualToAnchor(contentView.leadingAnchor, constant: 5),
+        constraints.appendContentsOf([summary.topAnchor.constraintEqualToAnchor(creator.bottomAnchor, constant: 2),
+            summary.leadingAnchor.constraintEqualToAnchor(thumbnail.trailingAnchor, constant: 5),
             summary.trailingAnchor.constraintEqualToAnchor(contentView.trailingAnchor, constant: -5)
         ])
 
         contentView.addSubview(publication)
 
         constraints.appendContentsOf([publication.topAnchor.constraintEqualToAnchor(summary.bottomAnchor, constant: 2),
-            publication.leadingAnchor.constraintEqualToAnchor(contentView.leadingAnchor, constant: 5)
+            publication.leadingAnchor.constraintEqualToAnchor(thumbnail.trailingAnchor, constant: 5)
             ])
 
 
@@ -89,17 +116,9 @@ class NewsArticleTableViewCell: UITableViewCell {
             relatedArticlesLabel.trailingAnchor.constraintEqualToAnchor(contentView.trailingAnchor, constant: -5),
             ])
 
-//        contentView.addSubview(relatedArticlesLabel)
-//
-//        constraints.appendContentsOf([relatedArticlesLabel.topAnchor.constraintEqualToAnchor(publication.bottomAnchor, constant: 2),
-//            relatedArticlesLabel.leadingAnchor.constraintEqualToAnchor(contentView.trailingAnchor, constant: 5),
-//            relatedArticlesLabel.trailingAnchor.constraintEqualToAnchor(contentView.trailingAnchor, constant: -5),
-//            relatedArticlesLabel.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor, constant: -5)
-//            ])
-
         NSLayoutConstraint.activateConstraints(constraints)
 
-        self.accessoryType = .DetailDisclosureButton
+        self.accessoryType = .DisclosureIndicator
     }
 
     required init(coder aDecoder: NSCoder) {

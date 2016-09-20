@@ -40,6 +40,8 @@ class ViewController: UIViewController {
         self.title = "Latest News"
         setupTableViewUI()
         findSimilarNewsStories()
+
+        NSTimer.scheduledTimerWithTimeInterval(5 * 60, target: self, selector: #selector(self.findSimilarNewsStories), userInfo: nil, repeats: true)
     }
 
     func setupTableViewUI() {
@@ -57,8 +59,8 @@ class ViewController: UIViewController {
     func findSimilarNewsStories() {
 
         let lockQueue = dispatch_queue_create("org.mozilla.LockQueue", nil)
+        newsArticles = [Article]()
         for (publication, url) in newsSources {
-            print("Finding articles from \(publication)")
             newsItemsFromRSSFeed(publication, feedUri: url) { articles in
                 if let articles = articles {
                     dispatch_sync(lockQueue) {
@@ -90,12 +92,12 @@ class ViewController: UIViewController {
     var completedSourceCount = 0
 
     func fetchCompleted(source: String) {
-        print("Completed \(source)")
         completedSourceCount += 1
-        print("\(completedSourceCount) == \(newsSources.keys.count)")
         if completedSourceCount == newsSources.keys.count {
             self.scanForRelatedNewsArticles()
+            completedSourceCount = 0
         }
+
     }
 
     func newsItemsFromRSSFeed(publication: String, feedUri: String, completionHandler: ([Article]?) -> Void) {
@@ -103,7 +105,6 @@ class ViewController: UIViewController {
             let task = NSURLSession.sharedSession().dataTaskWithURL(sourceURL, completionHandler: { (data, response, error) in
                 if let data = data,
                     let response = String(data: data, encoding: NSUTF8StringEncoding) {
-//                    print("\(response)")
                     do {
                         // if encoding is omitted, it defaults to NSUTF8StringEncoding
                         let doc = try XMLDocument(string: response, encoding: NSUTF8StringEncoding)
@@ -111,7 +112,6 @@ class ViewController: UIViewController {
                         if let root = doc.root,
                             let channel = root.firstChild(tag: "channel") {
                             let items = channel.children(tag: "item")
-//                            print(items)
                             var articles = [Article]()
                             for item in items {
                                 let articleTitle: TaggedString?
@@ -121,7 +121,7 @@ class ViewController: UIViewController {
 
                                 let articleDescription: TaggedString?
                                 if let description = item.firstChild(tag: "description")?.stringValue {
-                                    articleDescription = TaggedString(string: description, wordsOfInterestByFrequency: Set(self.wordsOfInterestIn(description)))
+                                    articleDescription = TaggedString(string: description.html2String, wordsOfInterestByFrequency: Set(self.wordsOfInterestIn(description)))
                                 } else { articleDescription = nil }
 
                                 let articleDate: NSDate?
@@ -142,9 +142,30 @@ class ViewController: UIViewController {
                                     articleURL = NSURL(string: link)
                                 } else { articleURL = nil }
 
-                                articles.append(Article(publication: publication, date: articleDate, title: articleTitle, description: articleDescription, url: articleURL))
+                                let article = Article(publication: publication, date: articleDate, title: articleTitle, description: articleDescription, url: articleURL)
+
+                                if let imageTag = item.firstChild(tag: "thumbnail"),
+                                    let url = imageTag.attributes["url"] {
+
+                                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                                        article.image = UIImage(data: NSData(contentsOfURL: NSURL(string: url)!)!)
+                                    }
+                                } else if let imageTag = item.firstChild(tag: "content"),
+                                    let url = imageTag.attributes["url"] {
+                                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+                                        article.image = UIImage(data: NSData(contentsOfURL: NSURL(string: url)!)!)
+                                    }
+                                } else {
+                                    print("cannot find image url in \(item)")
+                                }
+
+                                if let creator = item.firstChild(tag: "creator")?.stringValue {
+                                    article.creator = creator
+                                }
+
+                                articles.append(article)
                             }
-                            completionHandler(articles)
+                            return completionHandler(articles)
                         } else {
                             print("Unable to fetch articles for \(publication)")
                         }
@@ -161,6 +182,7 @@ class ViewController: UIViewController {
                 } else {
                     print("error \(error)")
                 }
+                completionHandler(nil)
             })
             
             task.resume()
@@ -176,21 +198,18 @@ class ViewController: UIViewController {
                     continue
                 }
                 if let comparisonTitleWords = comparisonArticle.description?.wordsOfInterestByFrequency,
-                    let articleTitleWords = articleTitleWords {
+                    let articleTitleWords = articleTitleWords where articleTitleWords.count > 2 {
                     if comparisonTitleWords.intersect(articleTitleWords).count > (articleTitleWords.count / 2) {
                         article.relatedArticles.insert(comparisonArticle)
                         continue
                     }
                 }
                 if let comparisonDescriptionWords = comparisonArticle.description?.wordsOfInterestByFrequency,
-                    let articleDescriptionWords = articleDescriptionWords {
+                    let articleDescriptionWords = articleDescriptionWords where articleDescriptionWords.count > 2 {
                     if comparisonDescriptionWords.intersect(articleDescriptionWords).count > (articleDescriptionWords.count / 2) {
                         article.relatedArticles.insert(comparisonArticle)
                     }
                 }
-            }
-            if article.relatedArticles.count > 0 {
-                print("article \(article.title?.string) has \(article.relatedArticles.count) related articles")
             }
         }
 
@@ -265,13 +284,12 @@ extension ViewController: UITableViewDataSource {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let article = newsArticles[indexPath.row]
-        if article.relatedArticles.count > 0 {
-            print("article \(article.title?.string) has \(article.relatedArticles.count) related articles")
-        }
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! NewsArticleTableViewCell
         cell.headline.text = article.title?.string
         cell.summary.text = article.description?.string
         cell.publication.text = article.publication
+        cell.creator.text = article.creator
+        cell.thumbnail.image = article.image
         //
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy HH:mm"
@@ -298,6 +316,8 @@ class Article: Hashable {
     let url: NSURL?
     let body: TaggedString?
     var relatedArticles: Set<Article> = Set<Article>()
+    var image: UIImage?
+    var creator: String?
 
     init(publication: String, date: NSDate?, title: TaggedString?, description: TaggedString?, url: NSURL?) {
         self.publication = publication
@@ -315,5 +335,23 @@ class Article: Hashable {
 
 func ==(lhs: Article, rhs: Article) -> Bool {
     return lhs.url == rhs.url
+}
+
+extension String {
+
+    var html2AttributedString: NSAttributedString? {
+        guard
+            let data = dataUsingEncoding(NSUTF8StringEncoding)
+            else { return nil }
+        do {
+            return try NSAttributedString(data: data, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType,NSCharacterEncodingDocumentAttribute:NSUTF8StringEncoding], documentAttributes: nil)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            return  nil
+        }
+    }
+    var html2String: String {
+        return html2AttributedString?.string ?? ""
+    }
 }
 
